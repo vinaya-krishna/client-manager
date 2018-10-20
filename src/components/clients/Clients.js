@@ -1,26 +1,33 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
+import PropTypes from "prop-types";
+import Spinner from "../layout/Spinner";
+
 class Clients extends Component {
+  state = {
+    totalOwed: null
+  };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { clients } = nextProps;
+
+    if (clients) {
+      const total = clients.reduce((total, client) => {
+        return total + parseFloat(client.balance.toString());
+      }, 0);
+      return { totalOwed: total };
+    } else {
+      return null;
+    }
+  }
+
   render() {
-    const clients = [
-      {
-        id: 1234,
-        firstName: "Vinay",
-        lastName: "Pudyodu",
-        email: "v@gmail.com",
-        phone: "123-345-4343",
-        balance: "40"
-      },
-      {
-        id: 3212,
-        firstName: "Krishna",
-        lastName: "Pudyodu",
-        email: "k@gmail.com",
-        phone: "123-345-4343",
-        balance: "10"
-      }
-    ];
+    const { clients } = this.props;
+    const { totalOwed } = this.state;
 
     if (clients) {
       return (
@@ -31,7 +38,14 @@ class Clients extends Component {
                 <i className="fas fa-users">Clients</i>
               </h2>
             </div>
-            <div className="col-md-6" />
+            <div className="col-md-6">
+              <h5 className="text-right text-secondary">
+                Total Owed{" "}
+                <span className="text-primary">
+                  ${parseFloat(totalOwed).toFixed(2)}
+                </span>
+              </h5>
+            </div>
           </div>
           <table className="table table-striped">
             <thead className="thead-inverse">
@@ -65,9 +79,23 @@ class Clients extends Component {
         </div>
       );
     } else {
-      return <h1>Loading...</h1>;
+      return <Spinner />;
     }
   }
 }
 
-export default Clients;
+Clients.propTypes = {
+  firestore: PropTypes.object.isRequired,
+  clients: PropTypes.array
+};
+
+export default compose(
+  firestoreConnect([
+    {
+      collection: "clients"
+    }
+  ]),
+  connect(state => ({
+    clients: state.firestore.ordered.clients
+  }))
+)(Clients);
