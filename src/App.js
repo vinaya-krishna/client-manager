@@ -7,6 +7,7 @@ import Dashboard from "./components/layout/Dashboard";
 import Navbar from "./components/layout/Navbar";
 import PageNotFound from "./components/layout/PageNotFound";
 import AddClient from "./components/clients/AddClient";
+import EditClient from "./components/clients/EditClient";
 import Detail from "./components/clients/ClientDetail";
 
 import { Provider } from "react-redux";
@@ -23,6 +24,7 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={Dashboard} />
                 <Route exact path="/client/add" component={AddClient} />
+                <Route exact path="/client/edit/:id" component={EditClient} />
                 <Route exact path="/client/:id" component={Detail} />
                 <Route component={PageNotFound} />
               </Switch>

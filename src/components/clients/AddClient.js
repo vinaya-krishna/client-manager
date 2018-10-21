@@ -61,7 +61,7 @@ class AddClient extends Component {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="lastName">First Name</label>
+                <label htmlFor="lastName">Last Name</label>
                 <input
                   type="text"
                   className="form-control"
