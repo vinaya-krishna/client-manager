@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
 
+import { UserIsAuthenticated, UserIsNotAuthenticated } from "./Others/auth";
+
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Dashboard from "./components/layout/Dashboard";
@@ -9,6 +11,7 @@ import PageNotFound from "./components/layout/PageNotFound";
 import AddClient from "./components/clients/AddClient";
 import EditClient from "./components/clients/EditClient";
 import Detail from "./components/clients/ClientDetail";
+import Login from "./components/auth/Login";
 
 import { Provider } from "react-redux";
 import store from "./store";
@@ -22,9 +25,26 @@ class App extends Component {
             <Navbar />
             <div className="container">
               <Switch>
-                <Route exact path="/" component={Dashboard} />
-                <Route exact path="/client/add" component={AddClient} />
-                <Route exact path="/client/edit/:id" component={EditClient} />
+                <Route
+                  exact
+                  path="/login"
+                  component={UserIsNotAuthenticated(Login)}
+                />
+                <Route
+                  exact
+                  path="/"
+                  component={UserIsAuthenticated(Dashboard)}
+                />
+                <Route
+                  exact
+                  path="/client/add"
+                  component={UserIsAuthenticated(AddClient)}
+                />
+                <Route
+                  exact
+                  path="/client/edit/:id"
+                  component={UserIsAuthenticated(EditClient)}
+                />
                 <Route exact path="/client/:id" component={Detail} />
                 <Route component={PageNotFound} />
               </Switch>
