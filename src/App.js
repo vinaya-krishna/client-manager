@@ -12,6 +12,7 @@ import AddClient from "./components/clients/AddClient";
 import EditClient from "./components/clients/EditClient";
 import Detail from "./components/clients/ClientDetail";
 import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
 import Settings from "./components/settings/Settings";
 
 import { Provider } from "react-redux";
@@ -30,6 +31,11 @@ class App extends Component {
                   exact
                   path="/login"
                   component={UserIsNotAuthenticated(Login)}
+                />
+                <Route
+                  exact
+                  path="/register"
+                  component={UserIsNotAuthenticated(Register)}
                 />
                 <Route
                   exact
