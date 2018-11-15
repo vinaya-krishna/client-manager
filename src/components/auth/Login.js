@@ -8,8 +8,8 @@ import Alert from "../layout/Alert";
 
 class Login extends Component {
   state = {
-    email: "",
-    password: ""
+    email: "test@gmail.com",
+    password: "test123"
   };
   onChange = e => {
     this.setState({
